@@ -3,15 +3,16 @@ package main
 import (
 	"gofr.dev/pkg/gofr"
 	"encoding/json"
+	"github.com/udittripathi/GoFr_Assignment/models"
 )
 
-type Car struct {
-	ID          string    `json:"id"`
-	Make        string    `json:"make"`
-	Model       string    `json:"model"`
-	EntryTime   string `json:"entry_time"`
-	RepairStatus string   `json:"repair_status"`
-}
+// type Car struct {
+// 	ID          string    `json:"id"`
+// 	Make        string    `json:"make"`
+// 	Model       string    `json:"model"`
+// 	EntryTime   string `json:"entry_time"`
+// 	RepairStatus string   `json:"repair_status"`
+// }
 
 func main() {
 	// initialise gofr object
@@ -25,8 +26,8 @@ func main() {
     })
 
 	app.POST("/carinfo", func(ctx *gofr.Context) (interface{}, error) {
-		var carReq Car
-
+		//var carReq Car
+        var carReq models.Car
 		// Parse JSON request body
 		if err := json.NewDecoder(ctx.Request().Body).Decode(&carReq); err != nil {
 			return nil, err

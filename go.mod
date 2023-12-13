@@ -1,4 +1,4 @@
-module github.com/example
+module github.com/udittripathi/GoFr_Assignment
 
 go 1.20
 
