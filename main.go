@@ -1,10 +1,16 @@
 package main
 
-import "gofr.dev/pkg/gofr"
+import (
+	"gofr.dev/pkg/gofr"
+	"encoding/json"
+)
 
-type Customer struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+type Car struct {
+	ID          string    `json:"id"`
+	Make        string    `json:"make"`
+	Model       string    `json:"model"`
+	EntryTime   string `json:"entry_time"`
+	RepairStatus string   `json:"repair_status"`
 }
 
 func main() {
@@ -18,36 +24,42 @@ func main() {
         return value, err
     })
 
-	app.POST("/customer/{name}", func(ctx *gofr.Context) (interface{}, error) {
-		name := ctx.PathParam("name")
+	app.POST("/carinfo", func(ctx *gofr.Context) (interface{}, error) {
+		var carReq Car
+
+		// Parse JSON request body
+		if err := json.NewDecoder(ctx.Request().Body).Decode(&carReq); err != nil {
+			return nil, err
+		}
 
 		// Inserting a customer row in database using SQL
-		_, err := ctx.DB().ExecContext(ctx, "INSERT INTO customers (name) VALUES (?)", name)
+		_, err := ctx.DB().ExecContext(ctx, "INSERT INTO cars (make, model, entry_time, repair_status) VALUES (?, ?, ?, ?)", carReq.Make, carReq.Model, carReq.EntryTime, carReq.RepairStatus)
+	
 
 		return nil, err
 	})
 
-	app.GET("/customer", func(ctx *gofr.Context) (interface{}, error) {
-		var customers []Customer
+	// app.GET("/car", func(ctx *gofr.Context) (interface{}, error) {
+	// 	var Cars []Car
 
-		// Getting the customer from the database using SQL
-		rows, err := ctx.DB().QueryContext(ctx, "SELECT * FROM customers")
-		if err != nil {
-			return nil, err
-		}
+	// 	// Getting the Car from the database using SQL
+	// 	rows, err := ctx.DB().QueryContext(ctx, "SELECT * FROM Cars")
+	// 	if err != nil {
+	// 		return nil, err
+	// 	}
 
-		for rows.Next() {
-			var customer Customer
-			if err := rows.Scan(&customer.ID, &customer.Name); err != nil {
-				return nil, err
-			}
+	// 	for rows.Next() {
+	// 		var Car Car
+	// 		if err := rows.Scan(&Car.ID, &Car.Name); err != nil {
+	// 			return nil, err
+	// 		}
 
-			customers = append(customers, customer)
-		}
+	// 		Cars = append(Cars, Car)
+	// 	}
 
-		// return the customer
-		return customers, nil
-	})
+	// 	// return the customer
+	// 	return Cars, nil
+	// })
 
 	// Starts the server, it will listen on the default port 8000.
 	// it can be over-ridden through configs
