@@ -40,27 +40,28 @@ func main() {
 		return nil, err
 	})
 
-	// app.GET("/car", func(ctx *gofr.Context) (interface{}, error) {
-	// 	var Cars []Car
+	app.GET("/car", func(ctx *gofr.Context) (interface{}, error) {
 
-	// 	// Getting the Car from the database using SQL
-	// 	rows, err := ctx.DB().QueryContext(ctx, "SELECT * FROM Cars")
-	// 	if err != nil {
-	// 		return nil, err
-	// 	}
+		var Cars []models.Car
 
-	// 	for rows.Next() {
-	// 		var Car Car
-	// 		if err := rows.Scan(&Car.ID, &Car.Name); err != nil {
-	// 			return nil, err
-	// 		}
+		// Getting the Car from the database using SQL
+		rows, err := ctx.DB().QueryContext(ctx, "SELECT * FROM Cars")
+		if err != nil {
+			return nil, err
+		}
 
-	// 		Cars = append(Cars, Car)
-	// 	}
+		for rows.Next() {
+			var Car models.Car
+			if err := rows.Scan(&Car.ID, &Car.Make, &Car.Model, &Car.EntryTime, &Car.RepairStatus); err != nil {
+				return nil, err
+			}
 
-	// 	// return the customer
-	// 	return Cars, nil
-	// })
+			Cars = append(Cars, Car)
+		}
+
+		// return the customer
+		return Cars, nil
+	})
 
 	// Starts the server, it will listen on the default port 8000.
 	// it can be over-ridden through configs
