@@ -54,18 +54,37 @@ The program initializes a gofr object, sets up various HTTP endpoints for handli
     + Method: GET
     + URL: http://localhost:9000/car
     + Check that the response contains a list of cars.
+
+| POSTMAN                | Terminal                |
+| ---------------------- | ---------------------- |
+| ![POSTMAN](images/s3.png) | ![Terminal](images/s4.png) |
+
  3. Get Car by ID:
     + Method: GET
     + URL: http://localhost:9000/car/{id}
     + Replace {id} with a valid car ID.
     + Check that the response contains details of the specified car.
+
+| POSTMAN                | Terminal                |
+| ---------------------- | ---------------------- |
+| ![POSTMAN](images/s5.png) | ![Terminal](images/s6.png) |
+
  4. Complete Car Repair:
     + Method: POST
     + URL: http://localhost:9000/completeRepair/{id}
     + Replace {id} with a valid car ID.
     + Check that the response indicates successful repair completion.
+
+| POSTMAN                | Terminal                |
+| ---------------------- | ---------------------- |
+| ![POSTMAN](images/s7.png) | ![Terminal](images/s8.png) |    
+
  5. Delete Car Entry:
     + Method: DELETE
     + URL: http://localhost:9000/deleteCar/{id}
     + Replace {id} with a valid car ID.
-    + Check that the response indicates successful deletion.     
+    + Check that the response indicates successful deletion.   
+
+| POSTMAN                | Terminal                |
+| ---------------------- | ---------------------- |
+| ![POSTMAN](images/s9.png) | ![Terminal](images/s10.png) |      
