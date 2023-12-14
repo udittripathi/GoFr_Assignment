@@ -92,3 +92,10 @@ The program initializes a gofr object, sets up various HTTP endpoints for handli
 | POSTMAN                | Terminal                |
 | ---------------------- | ---------------------- |
 | ![POSTMAN](images/s9.png) | ![Terminal](images/s10.png) |      
+
+
+## Sequence Diagram
+![SQD](images/SQD.png)
+
+## UML Diagram
+![UML](images/UMLD.png)
