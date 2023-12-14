@@ -98,38 +98,38 @@ func main() {
 	})
 
 
-app.DELETE("/deleteCar/{id}", func(ctx *gofr.Context) (interface{}, error) {
-	// Get the car ID from the path parameters
-	carID := ctx.PathParam("id")
-
-	// Query the current repair status from the database
-	row := ctx.DB().QueryRowContext(ctx, "SELECT repair_status FROM cars WHERE id = ?", carID)
-
-	var repairStatus string
-	// Scan the result into the repairStatus variable
-	if err := row.Scan(&repairStatus); err != nil {
-		return nil, err
-	}
-
-	// Check if the repair status is already "Completed"
-	if repairStatus == "Completed" {
-		// Delete the car entry from the database
-		_, err := ctx.DB().ExecContext(ctx, "DELETE FROM cars WHERE id = ?", carID)
-		if err != nil {
+	app.DELETE("/deleteCar/{id}", func(ctx *gofr.Context) (interface{}, error) {
+		// Get the car ID from the path parameters
+		carID := ctx.PathParam("id")
+	
+		// Query the current repair status from the database
+		row := ctx.DB().QueryRowContext(ctx, "SELECT repair_status FROM cars WHERE id = ?", carID)
+	
+		var repairStatus string
+		// Scan the result into the repairStatus variable
+		if err := row.Scan(&repairStatus); err != nil {
 			return nil, err
 		}
-
-		// Return a success response
+	
+		// Check if the repair status is already "Completed"
+		if repairStatus == "Completed" {
+			// Delete the car entry from the database
+			_, err := ctx.DB().ExecContext(ctx, "DELETE FROM cars WHERE id = ?", carID)
+			if err != nil {
+				return nil, err
+			}
+	
+			// Return a success response
+			return map[string]interface{}{
+				"message": "Car entry deleted successfully",
+			}, nil
+		}
+	
+		// If the repair status is not "Completed," return a response indicating that deletion is not allowed
 		return map[string]interface{}{
-			"message": "Car entry deleted successfully",
+			"message": "Cannot delete the car entry. Repair status is not yet Completed.",
 		}, nil
-	}
-
-	// If the repair status is not "Completed," return a response indicating that deletion is not allowed
-	return map[string]interface{}{
-		"message": "Cannot delete the car entry. Repair status is not yet Completed.",
-	}, nil
-})
+	})
 
 
 	// Starts the server, it will listen on the default port 8000.

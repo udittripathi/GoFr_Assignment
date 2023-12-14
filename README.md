@@ -23,11 +23,11 @@ This Go program creates a simple HTTP API for managing information about cars. T
  
   4. Complete Car Repair:
      + Endpoint: POST /completeRepair/{id}
-     + Updates the repair status of a specific car to 'Completed' based on the provided car ID.
+     + Updates the repair status of a car to "Completed" in the database. If the status is already "Completed," it returns a message indicating that the repair status is already completed.
 
   5. Delete Car Entry:
      + Endpoint: DELETE /deleteCar/{id}
-     + Deletes a car entry from the database based on the provided car ID.
+     + Deletes a car entry from the database. If the repair status is "Completed," it allows deletion; otherwise, it returns a message indicating that deletion is not allowed until the repair status is completed.
 
 The program initializes a gofr object, sets up various HTTP endpoints for handling CRUD operations on car information, connects to a database, and starts an HTTP server to listen for incoming requests. The database operations involve inserting, querying, updating, and deleting records in the "cars" table.
 
