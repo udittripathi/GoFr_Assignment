@@ -2,6 +2,10 @@
 
 ## To run:
 ```
+git clone https://github.com/udittripathi/GoFr_Assignment.git
+```
+
+```
 go run main.go
 ```
 
