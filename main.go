@@ -22,9 +22,11 @@ func main() {
 
 		// Inserting a customer row in database using SQL
 		_, err := ctx.DB().ExecContext(ctx, "INSERT INTO cars (make, model, entry_time, repair_status) VALUES (?, ?, ?, ?)", carReq.Make, carReq.Model, carReq.EntryTime, carReq.RepairStatus)
-	
+		if err != nil {
+			return nil, err
+		}
 
-		return nil, err
+		return "Car Updated Successfully", nil
 	})
 
 	app.GET("/car", func(ctx *gofr.Context) (interface{}, error) {
@@ -71,32 +73,63 @@ func main() {
 		// Get the car ID from the path parameters
 		carID := ctx.PathParam("id")
 	
-		// Update the repair status in the database
-		_, err := ctx.DB().ExecContext(ctx, "UPDATE cars SET repair_status = 'Completed' WHERE id = ?", carID)
-		if err != nil {
+		// Query the current repair status from the database
+		row := ctx.DB().QueryRowContext(ctx, "SELECT repair_status FROM cars WHERE id = ?", carID)
+	
+		var repairStatus string
+		if err := row.Scan(&repairStatus); err != nil {
 			return nil, err
 		}
 	
-		// Return success or any desired response
-		return "Repair status updated to Completed successfully", nil
+		// Check if the repair status is not already 'Completed'
+		if repairStatus != "Completed" {
+			// Update the repair status in the database
+			_, err := ctx.DB().ExecContext(ctx, "UPDATE cars SET repair_status = 'Completed' WHERE id = ?", carID)
+			if err != nil {
+				return nil, err
+			}
+	
+			// Return success response
+			return "Repair status updated to Completed successfully", nil
+		}
+	
+		// Return a response indicating that the repair status is already completed
+		return "Car repair status is already Completed", nil
 	})
 
 
-	app.DELETE("/deleteCar/{id}", func(ctx *gofr.Context) (interface{}, error) {
-		// Get the car ID from the path parameters
-      carID := ctx.PathParam("id")
+app.DELETE("/deleteCar/{id}", func(ctx *gofr.Context) (interface{}, error) {
+	// Get the car ID from the path parameters
+	carID := ctx.PathParam("id")
 
-    // Delete the car entry from the database
-    _, err := ctx.DB().ExecContext(ctx, "DELETE FROM cars WHERE id = ?", carID)
-    if err != nil {
-        return nil, err
-    }
+	// Query the current repair status from the database
+	row := ctx.DB().QueryRowContext(ctx, "SELECT repair_status FROM cars WHERE id = ?", carID)
 
-    // Return a response indicating success
-    return map[string]interface{}{
-        "message": "Car entry deleted successfully",
-    }, nil
-	})
+	var repairStatus string
+	// Scan the result into the repairStatus variable
+	if err := row.Scan(&repairStatus); err != nil {
+		return nil, err
+	}
+
+	// Check if the repair status is already "Completed"
+	if repairStatus == "Completed" {
+		// Delete the car entry from the database
+		_, err := ctx.DB().ExecContext(ctx, "DELETE FROM cars WHERE id = ?", carID)
+		if err != nil {
+			return nil, err
+		}
+
+		// Return a success response
+		return map[string]interface{}{
+			"message": "Car entry deleted successfully",
+		}, nil
+	}
+
+	// If the repair status is not "Completed," return a response indicating that deletion is not allowed
+	return map[string]interface{}{
+		"message": "Cannot delete the car entry. Repair status is not yet Completed.",
+	}, nil
+})
 
 
 	// Starts the server, it will listen on the default port 8000.
