@@ -45,6 +45,7 @@ The program initializes a gofr object, sets up various HTTP endpoints for handli
      >    "entry_time": "2023-12-12T12:00:00Z",
      >    "repair_status": "In Progress"
      > }
+
 | POSTMAN                | Terminal                |
 | ---------------------- | ---------------------- |
 | ![POSTMAN](images/s1.png) | ![Terminal](images/s2.png) |
