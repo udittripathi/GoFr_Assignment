@@ -32,16 +32,35 @@ This Go program creates a simple HTTP API for managing information about cars. T
 The program initializes a gofr object, sets up various HTTP endpoints for handling CRUD operations on car information, connects to a database, and starts an HTTP server to listen for incoming requests. The database operations involve inserting, querying, updating, and deleting records in the "cars" table.
 
 
-## To Test APIs
+### To Test APIs in Postman
 
  1. Create Car:   
     + Method: POST
     + URL: http://localhost:9000/carinfo
     + Body: JSON with car information.
-  Eg:
+  + Eg:
      > {
      >    "make": "Toyota",
      >    "model": "Camry",
      >    "entry_time": "2023-12-12T12:00:00Z",
      >    "repair_status": "In Progress"
      > }
+ 2. List All Cars:
+    + Method: GET
+    + URL: http://localhost:9000/car
+    + Check that the response contains a list of cars.
+ 3. Get Car by ID:
+    + Method: GET
+    + URL: http://localhost:9000/car/{id}
+    + Replace {id} with a valid car ID.
+    + Check that the response contains details of the specified car.
+ 4. Complete Car Repair:
+    + Method: POST
+    + URL: http://localhost:9000/completeRepair/{id}
+    + Replace {id} with a valid car ID.
+    + Check that the response indicates successful repair completion.
+ 5. Delete Car Entry:
+    + Method: DELETE
+    + URL: http://localhost:9000/deleteCar/{id}
+    + Replace {id} with a valid car ID.
+    + Check that the response indicates successful deletion.     
