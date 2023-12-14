@@ -1,12 +1,12 @@
 # GoFr_Assignment
 
-##To run:
+## To run:
 ```
 go run main.go
 ```
 
 
-###This Go program creates a simple HTTP API for managing information about cars. The program uses the gofr framework for handling HTTP requests and interactions with a database. Here's a brief overview of the functionality:
+### This Go program creates a simple HTTP API for managing information about cars. The program uses the gofr framework for handling HTTP requests and interactions with a database. Here's a brief overview of the functionality:
 
 1. Create Car Information:
 + Endpoint: POST /carinfo
@@ -29,4 +29,4 @@ go run main.go
 + Endpoint: DELETE /deleteCar/{id}
 + Deletes a car entry from the database based on the provided car ID.
 
-###The program initializes a gofr object, sets up various HTTP endpoints for handling CRUD operations on car information, connects to a database, and starts an HTTP server to listen for incoming requests. The database operations involve inserting, querying, updating, and deleting records in the "cars" table.
+### The program initializes a gofr object, sets up various HTTP endpoints for handling CRUD operations on car information, connects to a database, and starts an HTTP server to listen for incoming requests. The database operations involve inserting, querying, updating, and deleting records in the "cars" table.
