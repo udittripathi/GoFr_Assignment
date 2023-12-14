@@ -67,7 +67,36 @@ func main() {
 		return car, nil
 	})
 
+	app.POST("/completeRepair/{id}", func(ctx *gofr.Context) (interface{}, error) {
+		// Get the car ID from the path parameters
+		carID := ctx.PathParam("id")
+	
+		// Update the repair status in the database
+		_, err := ctx.DB().ExecContext(ctx, "UPDATE cars SET repair_status = 'Completed' WHERE id = ?", carID)
+		if err != nil {
+			return nil, err
+		}
+	
+		// Return success or any desired response
+		return "Repair status updated to Completed successfully", nil
+	})
 
+
+	app.DELETE("/deleteCar/{id}", func(ctx *gofr.Context) (interface{}, error) {
+		// Get the car ID from the path parameters
+      carID := ctx.PathParam("id")
+
+    // Delete the car entry from the database
+    _, err := ctx.DB().ExecContext(ctx, "DELETE FROM cars WHERE id = ?", carID)
+    if err != nil {
+        return nil, err
+    }
+
+    // Return a response indicating success
+    return map[string]interface{}{
+        "message": "Car entry deleted successfully",
+    }, nil
+	})
 
 
 	// Starts the server, it will listen on the default port 8000.
