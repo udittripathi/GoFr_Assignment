@@ -35,8 +35,18 @@ This Go program creates a simple HTTP API for managing information about cars. T
 
 The program initializes a gofr object, sets up various HTTP endpoints for handling CRUD operations on car information, connects to a database, and starts an HTTP server to listen for incoming requests. The database operations involve inserting, querying, updating, and deleting records in the "cars" table.
 
+## Task lists
 
-### To Test APIs in Postman
+- [x] CRUD Operations: Build APIs for create, read, update and delete operations for all entities.
+- [x] DB Integration: The API should have integration with database for persistence of data. Any SQL or NoSQL DB, which has a freely available docker image, may be used.
+- [x] Postman collection for trying out the APIs.
+- [x] Sequence diagrams, UML diagrams.
+- [x] committing and pushing the code to the repo.
+- [x] Include a README.md file describing the project functionalities. Also, do provide clear instructions on running the project and testing the API..
+
+
+
+## To Test APIs in Postman
 
  1. Create Car:   
     + Method: POST
