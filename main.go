@@ -6,24 +6,11 @@ import (
 	"github.com/udittripathi/GoFr_Assignment/models"
 )
 
-// type Car struct {
-// 	ID          string    `json:"id"`
-// 	Make        string    `json:"make"`
-// 	Model       string    `json:"model"`
-// 	EntryTime   string `json:"entry_time"`
-// 	RepairStatus string   `json:"repair_status"`
-// }
 
 func main() {
 	// initialise gofr object
 	app := gofr.New()
 
-	app.GET("/greet", func(ctx *gofr.Context) (interface{}, error) {
-		// Get the value using the redis instance
-		value, err := ctx.Redis.Get(ctx.Context, "greeting").Result()
-
-        return value, err
-    })
 
 	app.POST("/carinfo", func(ctx *gofr.Context) (interface{}, error) {
 		//var carReq Car
@@ -62,6 +49,26 @@ func main() {
 		// return the customer
 		return Cars, nil
 	})
+
+	app.GET("/car/{id}", func(ctx *gofr.Context) (interface{}, error) {
+		// Get the car ID from the path parameters
+		carID := ctx.PathParam("id")
+	
+		// Query the database for a specific car by ID
+		row := ctx.DB().QueryRowContext(ctx, "SELECT * FROM Cars WHERE ID = ?", carID)
+	
+		var car models.Car
+		// Scan the result into the car struct
+		if err := row.Scan(&car.ID, &car.Make, &car.Model, &car.EntryTime, &car.RepairStatus); err != nil {
+			return nil, err
+		}
+	
+		// Return the single car
+		return car, nil
+	})
+
+
+
 
 	// Starts the server, it will listen on the default port 8000.
 	// it can be over-ridden through configs
